@@ -31,7 +31,7 @@ if __name__ == '__main__':
     # Load the dataset
     chunk_size = 10000
     nrows = 1000000
-    chunks = pd.read_json('./market-basket-analysis/yelp_academic_dataset_review.json', lines=True, chunksize=chunk_size, nrows=nrows)
+    chunks = pd.read_json('./AMDs-Market-basket-analysis/yelp_academic_dataset_review.json', lines=True, chunksize=chunk_size, nrows=nrows)
 
     # Determine the number of CPU cores available
     num_cores = cpu_count()
