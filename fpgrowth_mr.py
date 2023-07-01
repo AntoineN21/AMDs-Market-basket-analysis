@@ -231,7 +231,7 @@ if __name__ == '__main__':
     with open('transactions.pkl', 'rb') as f:
         transactions = pkl.load(f)
 
-    min_support = 0.5
+    min_support = 0
     frequent_itemsets = FP_growth(transactions[:10000], min_support)
     print("Frequent Itemsets:")
     for itemset, support in frequent_itemsets:
