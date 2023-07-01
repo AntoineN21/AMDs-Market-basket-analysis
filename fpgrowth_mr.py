@@ -69,7 +69,7 @@ def reducer(mapped_data, frequent_items, item_counts, min_support):
     print(frequent_itemsets)
     return frequent_itemsets
 
-def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns, prefix=tuple()):
+    def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns, prefix=None):
     """
     Recursive function to mine frequent itemsets using the FP-growth approach
 
@@ -94,20 +94,26 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
     #print("lk el itemsss")
     #print(frequent_items)
     #print(conditional_patterns)
+    if prefix is None:
+        prefix = []
+    
     frequent_itemsets = []
     for item in frequent_items:
-        support = item_counts.get(prefix + (item,), 0)
+        updated_prefix = prefix + [item]
+        support = item_counts.get(tuple(updated_prefix), 0)
         print("prefix:", prefix)
         print("item:", item)
         #print("itemset:", itemset)
         print("support:", support)
         print("min_support:", min_support)
         if support >= min_support:
-            frequent_itemsets.append((prefix + (item,), support))
-            new_conditional_patterns = generate_conditional_patterns(conditional_patterns, prefix + (item,))
+            frequent_itemsets.append((tuple(updated_prefix), support))
+            new_conditional_patterns = generate_conditional_patterns(conditional_patterns, tuple(updated_prefix))
             new_frequent_items, new_item_counts = generate_frequent_items(new_conditional_patterns, min_support)
-            frequent_itemsets.extend(mine_frequent_itemsets(new_frequent_items, new_item_counts, min_support, new_conditional_patterns, prefix + (item,)))
+            frequent_itemsets.extend(mine_frequent_itemsets(new_frequent_items, new_item_counts, min_support, new_conditional_patterns, updated_prefix))
+    
     return frequent_itemsets
+
 
 
 
