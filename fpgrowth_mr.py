@@ -30,8 +30,8 @@ def mapper(args):
             pattern = [i for i in transaction if i != item]
             if pattern:
                 mapped_patterns[item].append(pattern)
-    print("mapp")
-    print(mapped_patterns)
+    #print("mapp")
+    #print(mapped_patterns)
     return mapped_patterns
 
 def reducer(mapped_data, frequent_items, item_counts, min_support):
@@ -192,7 +192,9 @@ def FP_growth(transactions, min_support):
     print("Hi");
     # Map phase with progress bar
     mapped_data = list(tqdm(pool.imap(mapper, args), total=len(args), desc="Mapping"))
-
+    print("heyyy")
+    print(frequent_single_items)
+    print(item_counts)
     # Reduce phase with progress bar
     frequent_itemsets = list(tqdm(reducer(mapped_data, frequent_single_items, item_counts, min_support), desc="Reducing"))
 
