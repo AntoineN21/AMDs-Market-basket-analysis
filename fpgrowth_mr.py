@@ -31,6 +31,8 @@ def mapper(args):
             if pattern:
                 mapped_patterns[item].append(pattern)
     
+    print("mapped_patterns:")
+    print(mapped_patterns)
     return mapped_patterns
 
 def reducer(mapped_data, frequent_items, item_counts, min_support):
@@ -64,6 +66,10 @@ def reducer(mapped_data, frequent_items, item_counts, min_support):
     # Mine frequent itemsets using the conditional patterns
     frequent_itemsets = mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns)
 
+    print("frequent_single_items:")
+    print(frequent_single_items)
+    print("item_counts:")
+    print(item_counts)
     return frequent_itemsets
 
 def generate_conditional_patterns(conditional_patterns, prefix):
