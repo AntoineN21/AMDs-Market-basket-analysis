@@ -94,27 +94,21 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
     #print("lk el itemsss")
     #print(frequent_items)
     #print(conditional_patterns)
+    def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns, prefix=tuple()):
     frequent_itemsets = []
     for item in frequent_items:
         support = item_counts.get(prefix + (item,), 0)
-        print("supp")
-        print(item)
-        #print(item_counts)
-        print( item_counts.get(prefix + (item,)))
-        print(support)
-        print(min_support)
+        print("prefix:", prefix)
+        print("item:", item)
+        print("itemset:", prefix + (item,))
+        print("support:", support)
+        print("min_support:", min_support)
         if support >= min_support:
-            print("if 2f")
             frequent_itemsets.append((prefix + (item,), support))
             new_conditional_patterns = generate_conditional_patterns(conditional_patterns, prefix + (item,))
-            print("new new")
-            print(new_conditional_patterns)
             new_frequent_items, new_item_counts = generate_frequent_items(new_conditional_patterns, min_support)
-            print("old old")
-            print(new_frequent_items)
             frequent_itemsets.extend(mine_frequent_itemsets(new_frequent_items, new_item_counts, min_support, new_conditional_patterns, prefix + (item,)))
-    print("minnnn")
-    print(frequent_itemsets)
+    print("frequent_itemsets:", frequent_itemsets)
     return frequent_itemsets
 
 
