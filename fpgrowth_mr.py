@@ -75,11 +75,12 @@ def generate_conditional_patterns(conditional_patterns, prefix):
     new_conditional_patterns = defaultdict(list)
     for item, patterns in conditional_patterns.items():
         for pattern in patterns:
-            if set(prefix).issubset(set(pattern)):  # Check if prefix is a subset of pattern
-                new_pattern = [i for i in pattern if i not in prefix]
+            if all(x in pattern for x in prefix):  # Check if all elements of prefix are present in pattern
+                new_pattern = [x for x in pattern if x not in prefix]  # Remove prefix elements from pattern
                 if new_pattern:
                     new_conditional_patterns[item].append(new_pattern)
     return new_conditional_patterns
+
 
 
 def generate_frequent_items(conditional_patterns, min_support):
