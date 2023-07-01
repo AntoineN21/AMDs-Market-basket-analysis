@@ -180,8 +180,8 @@ def FP_growth(transactions, min_support):
         List containing the frequent itemsets
     """
     # First pass - Counting frequent single items
-    print("hi")
-    print(transactions)
+    #print("hi")
+    #print(transactions)
     single_item_counts = defaultdict(int)
     for transaction in transactions:
         for item in transaction:
@@ -204,8 +204,8 @@ def FP_growth(transactions, min_support):
     # Map phase with progress bar
     mapped_data = list(tqdm(pool.imap(mapper, args), total=len(args), desc="Mapping"))
     print("heyyy")
-    print(frequent_single_items)
-    print(item_counts)
+    #print(frequent_single_items)
+    #print(item_counts)
     # Reduce phase with progress bar
     frequent_itemsets = list(tqdm(reducer(mapped_data, frequent_single_items, item_counts, min_support), desc="Reducing"))
 
