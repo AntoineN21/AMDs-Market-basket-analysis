@@ -88,29 +88,14 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
     frequent_itemsets : list
         List containing the frequent itemsets
     """
+def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns):
     frequent_itemsets = []
+    for item, count in frequent_items:
+        support = min(item_counts[item] for item in prefix) if prefix else 0  # Check if prefix is empty
+        if support >= min_support:
+            frequent_itemsets.append((prefix + [item], support))
 
-    # Check if the current prefix is already a frequent itemset
-    support = min(item_counts[item] for item in prefix)
-    if support >= min_support:
-        frequent_itemsets.append((prefix, support))
-
-    # Create the conditional pattern base
-    conditional_pattern_base = []
-    for item in frequent_items:
-        conditional_pattern_base.extend(conditional_patterns.get(item, []))
-
-    # Create the conditional FP-tree from the conditional pattern base
-    conditional_tree, conditional_item_counts = construct_conditional_tree(conditional_pattern_base)
-
-    # Extract frequent items from the conditional FP-tree
-    frequent_items_conditional = [item for item, count in conditional_item_counts.items() if count >= min_support]
-
-    # Generate conditional patterns and mine frequent itemsets recursively
-    for item in frequent_items_conditional:
-        frequent_itemset = prefix + (item,)
-        frequent_itemsets.extend(mine_frequent_itemsets(frequent_items_conditional, conditional_item_counts, min_support, conditional_patterns[item], frequent_itemset))
-
+    frequent_itemsets.extend(mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns))
     return frequent_itemsets
 
 def construct_conditional_tree(pattern_base):
