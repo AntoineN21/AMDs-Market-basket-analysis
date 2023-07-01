@@ -30,7 +30,8 @@ def mapper(args):
             pattern = [i for i in transaction if i != item]
             if pattern:
                 mapped_patterns[item].append(pattern)
-
+    print("mapp")
+    print(mapped_patterns)
     return mapped_patterns
 
 def reducer(mapped_data, frequent_items, item_counts, min_support):
@@ -64,6 +65,8 @@ def reducer(mapped_data, frequent_items, item_counts, min_support):
     # Mine frequent itemsets using the conditional patterns
     frequent_itemsets = mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns)
 
+    print("reduce")
+    print(frequent_itemsets)
     return frequent_itemsets
 
 def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns, prefix=tuple()):
