@@ -164,6 +164,8 @@ def FP_growth(transactions, min_support):
         List containing the frequent itemsets
     """
     # First pass - Counting frequent single items
+    print("hi")
+    print(transactions)
     single_item_counts = defaultdict(int)
     for transaction in transactions:
         for item in transaction:
