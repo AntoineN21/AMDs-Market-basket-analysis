@@ -69,31 +69,7 @@ def reducer(mapped_data, frequent_items, item_counts, min_support):
     print(frequent_itemsets)
     return frequent_itemsets
 
-    def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns, prefix=None):
-    """
-    Recursive function to mine frequent itemsets using the FP-growth approach
-
-    Parameters:
-    ----------
-    frequent_items : set
-        Set of frequent single items
-    item_counts : dict
-        Dictionary containing the counts of each item
-    min_support : int
-        Minimum support threshold
-    conditional_patterns : dict
-        Dictionary containing the conditional patterns for each frequent item
-    prefix : tuple, optional
-        Prefix for the itemset (default: empty tuple)
-
-    Returns:
-    -------
-    frequent_itemsets : list
-        List containing the frequent itemsets
-    """
-    #print("lk el itemsss")
-    #print(frequent_items)
-    #print(conditional_patterns)
+   def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns, prefix=None):
     if prefix is None:
         prefix = []
     
