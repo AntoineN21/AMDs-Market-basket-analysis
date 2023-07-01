@@ -91,12 +91,15 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
     frequent_itemsets : list
         List containing the frequent itemsets
     """
-    print("lk el itemsss")
-    print(frequent_items)
-    print(conditional_patterns)
+    #print("lk el itemsss")
+    #print(frequent_items)
+    #print(conditional_patterns)
     frequent_itemsets = []
     for item in frequent_items:
         support = item_counts.get(prefix + (item,), 0)
+        print("supp")
+        print(support)
+        print(min_support)
         if support >= min_support:
             print("if 2f")
             frequent_itemsets.append((prefix + (item,), support))
