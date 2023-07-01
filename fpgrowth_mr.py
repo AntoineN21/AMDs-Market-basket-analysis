@@ -35,7 +35,7 @@ def mapper(args):
     print(mapped_patterns)
     return mapped_patterns
 
-def reducer(mapped_data, frequent_items, item_counts, min_support):
+def reducer(mapped_data, frequent_single_items, item_counts, min_support):
     """
     Reduce phase: Combine conditional patterns from different processes
 
@@ -43,7 +43,7 @@ def reducer(mapped_data, frequent_items, item_counts, min_support):
     ----------
     mapped_data : list
         List containing the mapped data from different processes
-    frequent_items : set
+    frequent_single_items : set
         Set of frequent single items
     item_counts : dict
         Dictionary containing the counts of each item
@@ -64,12 +64,12 @@ def reducer(mapped_data, frequent_items, item_counts, min_support):
             conditional_patterns[item].extend(patterns)
 
     # Mine frequent itemsets using the conditional patterns
-    frequent_itemsets = mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns)
+    frequent_itemsets = mine_frequent_itemsets(frequent_single_items, item_counts, min_support, conditional_patterns)
 
-    print("frequent_single_items:")
-    print(frequent_single_items)
-    print("item_counts:")
-    print(item_counts)
+    print("Frequent Itemsets:")
+    for itemset, support in frequent_itemsets:
+        print(itemset, "Support:", support)
+
     return frequent_itemsets
 
 def generate_conditional_patterns(conditional_patterns, prefix):
