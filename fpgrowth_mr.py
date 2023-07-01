@@ -30,8 +30,7 @@ def mapper(args):
             pattern = [i for i in transaction if i != item]
             if pattern:
                 mapped_patterns[item].append(pattern)
-    #print("mapp")
-    #print(mapped_patterns)
+    
     return mapped_patterns
 
 def reducer(mapped_data, frequent_items, item_counts, min_support):
@@ -65,9 +64,60 @@ def reducer(mapped_data, frequent_items, item_counts, min_support):
     # Mine frequent itemsets using the conditional patterns
     frequent_itemsets = mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns)
 
-    print("reduce")
-    print(frequent_itemsets)
     return frequent_itemsets
+
+def generate_conditional_patterns(conditional_patterns, prefix):
+    """
+    Generate conditional patterns for a given prefix from the conditional pattern base
+
+    Parameters:
+    ----------
+    conditional_patterns : dict
+        Dictionary containing the conditional patterns for each frequent item
+    prefix : tuple
+        Prefix for the itemset
+
+    Returns:
+    -------
+    new_conditional_patterns : dict
+        Dictionary containing the conditional patterns for the given prefix
+    """
+    new_conditional_patterns = defaultdict(list)
+    for item, patterns in conditional_patterns.items():
+        for pattern in patterns:
+            if prefix in pattern:
+                new_pattern = [i for i in pattern if i != prefix]
+                if new_pattern:
+                    new_conditional_patterns[item].append(new_pattern)
+    return new_conditional_patterns
+
+
+def generate_frequent_items(conditional_patterns, min_support):
+    """
+    Generate frequent items and their counts from the conditional patterns
+
+    Parameters:
+    ----------
+    conditional_patterns : dict
+        Dictionary containing the conditional patterns for each frequent item
+    min_support : int
+        Minimum support threshold
+
+    Returns:
+    -------
+    frequent_items : set
+        Set of frequent items
+    item_counts : dict
+        Dictionary containing the counts of each frequent item
+    """
+    item_counts = defaultdict(int)
+    for item, patterns in conditional_patterns.items():
+        count = sum(1 for pattern in patterns)
+        if count >= min_support:
+            item_counts[item] = count
+    frequent_items = set(item_counts.keys())
+    return frequent_items, item_counts
+
 
 def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns, prefix=None):
     if prefix is None:
@@ -76,8 +126,6 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
     frequent_itemsets = []
     for item in frequent_items:
         updated_prefix = prefix + [item]
-        print("uuuu")
-        print(updated_prefix)
         support = item_counts.get(tuple(updated_prefix), 0)
         if support >= min_support:
             frequent_itemsets.append((tuple(updated_prefix), support))
@@ -86,10 +134,6 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
             frequent_itemsets.extend(mine_frequent_itemsets(new_frequent_items, new_item_counts, min_support, new_conditional_patterns, prefix=updated_prefix))
     
     return frequent_itemsets
-
-
-
-
 
 
 def construct_conditional_tree(pattern_base):
@@ -157,8 +201,6 @@ def FP_growth(transactions, min_support):
         List containing the frequent itemsets
     """
     # First pass - Counting frequent single items
-    #print("hi")
-    #print(transactions)
     single_item_counts = defaultdict(int)
     for transaction in transactions:
         for item in transaction:
@@ -174,15 +216,11 @@ def FP_growth(transactions, min_support):
     args = [(chunk, frequent_single_items, min_support) for chunk in chunks]
 
     # Create a pool of worker processes
-    print("Number of worker processes:", num_processes)
     pool = Pool(num_processes)
 
-    print("Hi");
     # Map phase with progress bar
     mapped_data = list(tqdm(pool.imap(mapper, args), total=len(args), desc="Mapping"))
-    print("heyyy")
-    #print(frequent_single_items)
-    #print(item_counts)
+
     # Reduce phase with progress bar
     frequent_itemsets = list(tqdm(reducer(mapped_data, frequent_single_items, item_counts, min_support), desc="Reducing"))
 
@@ -198,9 +236,7 @@ if __name__ == '__main__':
         transactions = pkl.load(f)
 
     min_support = 0.5
-    print(transactions[:10])
     frequent_itemsets = FP_growth(transactions[:10000], min_support)
-    print(frequent_itemsets)
     print("Frequent Itemsets:")
     for itemset, support in frequent_itemsets:
         print(itemset, "Support:", support)
