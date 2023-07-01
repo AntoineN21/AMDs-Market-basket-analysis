@@ -64,4 +64,5 @@ class FPGrowthMR(MRJob):
         for item, support in item_counts:
             self.item_counts[item] += support
 
-    if 
+   if __name__ == '__main__':
+    FPGrowthMR.run()
