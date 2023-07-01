@@ -93,6 +93,7 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
     """
     print("lk el itemsss")
     print(frequent_items)
+    print(conditional_patterns)
     frequent_itemsets = []
     for item in frequent_items:
         support = item_counts.get(prefix + (item,), 0)
