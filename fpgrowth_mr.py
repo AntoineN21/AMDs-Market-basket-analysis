@@ -203,6 +203,7 @@ if __name__ == '__main__':
     min_support = 2
 
     frequent_itemsets = FP_growth(transactions[:10000], min_support)
+    print(frequent_itemsets)
     print("Frequent Itemsets:")
     for itemset, support in frequent_itemsets:
         print(itemset, "Support:", support)
