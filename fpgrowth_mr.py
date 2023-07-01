@@ -99,6 +99,7 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
         support = item_counts.get(prefix + (item,), 0)
         print("supp")
         print(item_counts)
+        print( item_counts.get(prefix + (item,))
         print(support)
         print(min_support)
         if support >= min_support:
