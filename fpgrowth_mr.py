@@ -91,7 +91,7 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
     frequent_itemsets : list
         List containing the frequent itemsets
     """
-    frequent_itemsets = []
+   frequent_itemsets = []
     for item in frequent_items:
         support = item_counts.get(prefix + (item,), 0)
         if support >= min_support:
@@ -99,7 +99,7 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
             new_conditional_patterns = generate_conditional_patterns(conditional_patterns, prefix + (item,))
             new_frequent_items, new_item_counts = generate_frequent_items(new_conditional_patterns, min_support)
             frequent_itemsets.extend(mine_frequent_itemsets(new_frequent_items, new_item_counts, min_support, new_conditional_patterns, prefix + (item,)))
-    print("minnnn")
+    print("minnnnn")
     print(frequent_itemsets)
     return frequent_itemsets
 
