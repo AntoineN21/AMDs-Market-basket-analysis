@@ -88,7 +88,7 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
     frequent_itemsets : list
         List containing the frequent itemsets
     """
-   frequent_itemsets = []
+    frequent_itemsets = []
     for item in frequent_items:
         support = min(item_counts.get(tuple(prefix + [item]), 0))
         if support >= min_support:
