@@ -88,15 +88,15 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
     frequent_itemsets : list
         List containing the frequent itemsets
     """
-def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns):
     frequent_itemsets = []
-    for item, count in frequent_items:
-        support = min(item_counts[item] for item in prefix) if prefix else 0  # Check if prefix is empty
+    for item in frequent_items:
+        support = min(item_counts[item] for item in prefix) if prefix else 0
         if support >= min_support:
             frequent_itemsets.append((prefix + [item], support))
 
     frequent_itemsets.extend(mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional_patterns))
     return frequent_itemsets
+
 
 def construct_conditional_tree(pattern_base):
     """
