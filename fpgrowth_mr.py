@@ -72,49 +72,17 @@ def reducer(mapped_data, frequent_single_items, item_counts, min_support):
     return frequent_itemsets
 
 def generate_conditional_patterns(conditional_patterns, prefix):
-    """
-    Generate conditional patterns for a given prefix from the conditional pattern base
-
-    Parameters:
-    ----------
-    conditional_patterns : dict
-        Dictionary containing the conditional patterns for each frequent item
-    prefix : tuple
-        Prefix for the itemset
-
-    Returns:
-    -------
-    new_conditional_patterns : dict
-        Dictionary containing the conditional patterns for the given prefix
-    """
     new_conditional_patterns = defaultdict(list)
     for item, patterns in conditional_patterns.items():
         for pattern in patterns:
-            if prefix in pattern:
-                new_pattern = [i for i in pattern if i != prefix]
+            if set(prefix).issubset(set(pattern)):  # Check if prefix is a subset of pattern
+                new_pattern = [i for i in pattern if i not in prefix]
                 if new_pattern:
                     new_conditional_patterns[item].append(new_pattern)
     return new_conditional_patterns
 
 
 def generate_frequent_items(conditional_patterns, min_support):
-    """
-    Generate frequent items and their counts from the conditional patterns
-
-    Parameters:
-    ----------
-    conditional_patterns : dict
-        Dictionary containing the conditional patterns for each frequent item
-    min_support : int
-        Minimum support threshold
-
-    Returns:
-    -------
-    frequent_items : set
-        Set of frequent items
-    item_counts : dict
-        Dictionary containing the counts of each frequent item
-    """
     item_counts = defaultdict(int)
     for item, patterns in conditional_patterns.items():
         count = sum(1 for pattern in patterns)
