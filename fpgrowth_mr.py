@@ -83,9 +83,10 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
             frequent_itemsets.append((tuple(updated_prefix), support))
             new_conditional_patterns = generate_conditional_patterns(conditional_patterns, tuple(updated_prefix))
             new_frequent_items, new_item_counts = generate_frequent_items(new_conditional_patterns, min_support)
-            frequent_itemsets.extend(mine_frequent_itemsets(new_frequent_items, new_item_counts, min_support, new_conditional_patterns, updated_prefix))
+            frequent_itemsets.extend(mine_frequent_itemsets(new_frequent_items, new_item_counts, min_support, new_conditional_patterns, prefix=updated_prefix))
     
     return frequent_itemsets
+
 
 
 
