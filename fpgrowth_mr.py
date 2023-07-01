@@ -76,6 +76,8 @@ def mine_frequent_itemsets(frequent_items, item_counts, min_support, conditional
     frequent_itemsets = []
     for item in frequent_items:
         updated_prefix = prefix + [item]
+        print("uuuu")
+        print(updated_prefix)
         support = item_counts.get(tuple(updated_prefix), 0)
         if support >= min_support:
             frequent_itemsets.append((tuple(updated_prefix), support))
