@@ -3,7 +3,8 @@ import re
 import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
-from multiprocessing import Pool, cpu_count
+# from nltk.stem import PorterStemmer
+from multiprocessing import Pool, freeze_support, cpu_count
 from tqdm import tqdm
 import pickle as pkl
 
@@ -16,33 +17,61 @@ def preprocess_text(text):
     # Tokenize the text into words
     words = text.split()
     # Remove stopwords
-    words = [w for w in words if w not in stop_words]
+    words = [w for w in words if not w in stop_words]
     return words
 
-def process_chunk(chunk):
+def mapper(chunk):
     transactions = []
-    for _, row in chunk.iterrows():
+    for index, row in chunk.iterrows():
         text = row['text']
         words = preprocess_text(text)
         transactions.append(words)
     return transactions
 
+def reducer(results):
+    transactions = []
+    for result in results:
+        transactions.extend(result)
+    return transactions
+
 if __name__ == '__main__':
-    # Load the dataset
+    freeze_support()
+
+    # Create transactions
+    transactions = []
+
+    # Chunk size for loading the dataset
     chunk_size = 10000
-    nrows = 1000000
-    chunks = pd.read_json('./AMDs-Market-basket-analysis/yelp_academic_dataset_review.json', lines=True, chunksize=chunk_size, nrows=nrows)
+
+    # Load the dataset in chunks
+    chunks = pd.read_json('./market-basket-analysis/yelp_academic_dataset_review.json', lines=True, chunksize=chunk_size, nrows=1000000)
 
     # Determine the number of CPU cores available
     num_cores = cpu_count()
 
     # Create a pool of processes
-    with Pool(num_cores) as pool:
-        # Map phase: Process the chunks in parallel with a progress bar
-        mapped_results = list(tqdm(pool.imap_unordered(process_chunk, chunks), total=nrows // chunk_size))
+    pool = Pool(num_cores)
+
+    # Map phase: Process the chunks in parallel with a progress bar
+    mapped_results = []
+    for result in tqdm(pool.imap_unordered(mapper, chunks), total=num_cores):
+        mapped_results.append(result)
 
     # Reduce phase: Concatenate the results from different processes
-    transactions = [transaction for result in mapped_results for transaction in result]
+    transactions = reducer(mapped_results)
+
+    # Close the pool of processes
+    pool.close()
+    pool.join()
+
+    # # Print the transactions
+    # for i, transaction in enumerate(transactions, start=1):
+    #     print(f"Transaction {i}: {transaction}")
+
+    # # Save the transactions to a file
+    # with open('transactions.txt', 'w') as f:
+    #     for transaction in transactions:
+    #         f.write(' '.join(transaction) + '\n')
 
     # Save the transactions to a file (pkl)
     with open('transactions.pkl', 'wb') as f:
