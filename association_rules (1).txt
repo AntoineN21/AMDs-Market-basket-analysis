@@ -1,0 +1,80 @@
+Antecedent: ('food',)
+Consequent: ('good',)
+Support: 0.1500
+Confidence: 0.3846
+---
+Antecedent: ('good',)
+Consequent: ('food',)
+Support: 0.1500
+Confidence: 0.4688
+---
+Antecedent: ('place',)
+Consequent: ('good',)
+Support: 0.0900
+Confidence: 0.3103
+---
+Antecedent: ('good',)
+Consequent: ('great',)
+Support: 0.1000
+Confidence: 0.3125
+---
+Antecedent: ('great',)
+Consequent: ('time',)
+Support: 0.1200
+Confidence: 0.3333
+---
+Antecedent: ('time',)
+Consequent: ('great',)
+Support: 0.1200
+Confidence: 0.4800
+---
+Antecedent: ('place',)
+Consequent: ('great',)
+Support: 0.1200
+Confidence: 0.4138
+---
+Antecedent: ('great',)
+Consequent: ('place',)
+Support: 0.1200
+Confidence: 0.3333
+---
+Antecedent: ('place',)
+Consequent: ('go',)
+Support: 0.1000
+Confidence: 0.3448
+---
+Antecedent: ('go',)
+Consequent: ('place',)
+Support: 0.1000
+Confidence: 0.4000
+---
+Antecedent: ('food',)
+Consequent: ('service',)
+Support: 0.1400
+Confidence: 0.3590
+---
+Antecedent: ('service',)
+Consequent: ('food',)
+Support: 0.1400
+Confidence: 0.6667
+---
+Antecedent: ('get',)
+Consequent: ('place',)
+Support: 0.0700
+Confidence: 0.3043
+---
+Antecedent: ('service',)
+Consequent: ('great',)
+Support: 0.0900
+Confidence: 0.4286
+---
+Antecedent: ('food',)
+Consequent: ('place',)
+Support: 0.1400
+Confidence: 0.3590
+---
+Antecedent: ('place',)
+Consequent: ('food',)
+Support: 0.1400
+Confidence: 0.4828
+---
